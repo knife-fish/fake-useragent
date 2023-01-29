@@ -1,0 +1,74 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'signing'
+}
+
+group 'io.github.knife-fish'
+version '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13.1'
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.8.2")
+}
+
+test {
+    useJUnitPlatform()
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        gpr(MavenPublication) {
+            from components.java
+            pom {
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'evil0th'
+                        name = 'Eric'
+                        email = 'cs.liaow@gmail.com'
+                        organization = 'Knifefish'
+                        organizationUrl = 'https://github.com/knife-fish'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/knife-fish/fake-useragent.git'
+                    developerConnection = 'scm:git:ssh://github.com:knife-fish/fake-useragent.git'
+                    url = 'https://github.com/knife-fish/fake-useragent.git'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            name = "OSSRH"
+            url = version.endsWith("SNAPSHOT") ? "https://s01.oss.sonatype.org/content/repositories/snapshots/" : "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username = project.findProperty("ossrh.username") ?: System.getenv("MAVEN_USERNAME")
+                password = project.findProperty("ossrh.password") ?: System.getenv("MAVEN_PASSWORD")
+            }
+        }
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/knife-fish/fake-useragent"
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+                password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+}

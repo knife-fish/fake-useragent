@@ -1,0 +1,44 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a package using Gradle and then publish it to GitHub packages when a release is created
+# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#Publishing-using-gradle
+
+
+# <a name="this-workflow-uses-actions-that-are-not-certified-by-github"></a>此工作流使用未经 GitHub 认证的操作。
+# <a name="they-are-provided-by-a-third-party-and-are-governed-by"></a>它们由第三方提供，并受
+# <a name="separate-terms-of-service-privacy-policy-and-support"></a>单独的服务条款、隐私政策和支持
+# <a name="documentation"></a>文档。
+
+# <a name="github-recommends-pinning-actions-to-a-commit-sha"></a>GitHub 建议将操作固定到提交 SHA。
+# <a name="to-get-a-newer-version-you-will-need-to-update-the-sha"></a>若要获取较新版本，需要更新 SHA。
+# <a name="you-can-also-reference-a-tag-or-branch-but-the-action-may-change-without-warning"></a>还可以引用标记或分支，但该操作可能会更改而不发出警告。
+
+name: Publish package to the Maven Central Repository and GitHub Packages
+on:
+  release:
+    types: [created]
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
+      - name: Publish package
+        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+        with:
+          arguments: publish
+        env: 
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
