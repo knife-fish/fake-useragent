@@ -30,6 +30,9 @@ publishing {
         gpr(MavenPublication) {
             from components.java
             pom {
+                name = 'Generate Fake User Agent String'
+                description = 'Chrome/Firefox/Safari/Edge/UC/QQ/Baidu/Wechat/App user agent strings generator for Mac/Linux/Windows/Android'
+                url = 'https://github.com/knife-fish/fake-useragent'
                 licenses {
                     license {
                         name = 'The Apache License, Version 2.0'
@@ -45,6 +48,10 @@ publishing {
                         organizationUrl = 'https://github.com/knife-fish'
                     }
                 }
+                issueManagement {
+					system = 'GitHub'
+					url = 'https://github.com/knife-fish/fake-useragent/issues'
+				}
                 scm {
                     connection = 'scm:git:git://github.com/knife-fish/fake-useragent.git'
                     developerConnection = 'scm:git:ssh://github.com:knife-fish/fake-useragent.git'
@@ -61,6 +68,8 @@ publishing {
                 username = project.findProperty("ossrh.username") ?: System.getenv("MAVEN_USERNAME")
                 password = project.findProperty("ossrh.password") ?: System.getenv("MAVEN_PASSWORD")
             }
+            // then login to https://s01.oss.sonatype.org/ and release, `Staging Repositories`, Close->Confirm, Release->Confirm
+            // https://central.sonatype.org/publish/release/#locate-and-examine-your-staging-repository
         }
         maven {
             name = "GitHubPackages"
@@ -71,4 +80,11 @@ publishing {
             }
         }
     }
+}
+
+signing {
+	def signingKey = findProperty("signingKey") ?: System.getenv("GPG_PRIVATE_KEY")
+    def signingPassphrase = findProperty("signingPassphrase") ?: System.getenv("GPG_PASSPHRASE")
+    useInMemoryPgpKeys(signingKey, signingPassphrase)
+    sign(publishing.publications)
 }
