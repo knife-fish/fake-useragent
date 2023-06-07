@@ -8,7 +8,7 @@
 [![MIT license](https://img.shields.io/badge/license-Apache-brightgreen.svg?style=flat)](http://opensource.org/licenses/Apache-2.0)
 [![Project status](https://img.shields.io/badge/Project%20status-Maintenance-orange.svg)](https://img.shields.io/badge/Project%20status-Maintenance-orange.svg)
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.knife-fish/fake-useragent)](https://repo1.maven.org/maven2/io/github/knife-fish/fake-useragent/)
-[![Build Status](https://github.com/Knife-fish/fake-useragent/actions/workflows/main.yml/badge.svg)](https://github.com/Knife-fish/fake-useragent/actions)
+[![Build Status](https://github.com/knife-fish/fake-useragent/actions/workflows/main.yml/badge.svg)](https://github.com/knife-fish/fake-useragent/actions)
 
 </div>
 
@@ -26,7 +26,7 @@ Include following dependency in your pom.xml
 ```xml
   <dependency>
     <groupId>io.github.knife-fish</groupId>
-    <artifactId>fake-useragent</artifactId>
+    <artifactId>useragent-kit</artifactId>
     <version>${latest.version}</version>
   </dependency>
 ```
